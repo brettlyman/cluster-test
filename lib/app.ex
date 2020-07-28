@@ -4,8 +4,7 @@ defmodule MyApp.App do
   def start(_type, _args) do
     topologies = [
       example: [
-        strategy: Cluster.Strategy.Epmd,
-        config: [hosts: [:"lfx-2@192.168.1.202", :"lfx-3@192.168.1.203", :"lfx-4@192.168.1.204", :"lfx-5@192.168.1.205"]],
+        strategy: Cluster.Strategy.Gossip
       ]
     ]
     children = [
