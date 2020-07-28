@@ -1,18 +1,19 @@
 defmodule Cluster do
-  @moduledoc """
-  Documentation for `Cluster`.
-  """
+  use Application
+  
+  def start(_type, _args) do
+    import Supervisor.Spec, warn: false
 
-  @doc """
-  Hello world.
+    topologies = [
+      test: [
+        strategy: Cluster.Strategy.Gossip
+      ]
+    ]
 
-  ## Examples
-
-      iex> Cluster.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    children = [
+      {Cluster.Supervisor, [topologies, [name: Cluster.ClusterSupervisor]]}
+    ]
+    opts = [strategy: :one_for_one, name: Cluster.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end
